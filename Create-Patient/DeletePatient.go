@@ -100,7 +100,7 @@ func (t *ManagePatient) Init(stub shim.ChaincodeStubInterface, function string, 
   // Handle different functions
   if function == "init" {                         //initialize the chaincode state, used as reset
     return t.Init(stub, "init", args)
-  } else if function == "create_patient" {                     //create a new Patient
+  } else if function == "delete_patient" {                     //create a new Patient
     return t.create_patient(stub, args)
   }
    fmt.Println("invoke did not find func: " + function)          //error
@@ -233,7 +233,7 @@ func (t *ManagePatient) delete_patient(stub shim.ChaincodeStubInterface, args []
   for i,val := range PatientIndex{
     fmt.Println(strconv.Itoa(i) + " - looking at " + val + " for " + PatientID)
     if val == PatientID{                             //find the correct Vessel
-      fmt.Println("found Vessel with matching vesselID")
+      fmt.Println("found Vessel with matching patientID")
       PatientIndex = append(PatientIndex[:i], PatientIndex[i+1:]...)     //remove it
       for x:= range PatientIndex{                      //debug prints...
         fmt.Println(string(x) + " - " + PatientIndex[x])
