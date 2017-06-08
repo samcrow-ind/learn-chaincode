@@ -214,6 +214,7 @@ func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []
 }
 //=====================Delete Vessel==================================================================
 func (t *ManagePatient) delete(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+  fmt.Println("enter delete function")
   if len(args) != 1 {
     return nil, errors.New("Incorrect number of arguments. Expecting 1")
   }
@@ -235,7 +236,7 @@ func (t *ManagePatient) delete(stub shim.ChaincodeStubInterface, args []string) 
   for i,val := range PatientIndex{
     fmt.Println(strconv.Itoa(i) + " - looking at " + val + " for " + PatientID)
     if val == PatientID{                             //find the correct Vessel
-      fmt.Println("found Vessel with matching patientID")
+      fmt.Println("found patient with matching patientID")
       PatientIndex = append(PatientIndex[:i], PatientIndex[i+1:]...)     //remove it
       for x:= range PatientIndex{                      //debug prints...
         fmt.Println(string(x) + " - " + PatientIndex[x])
