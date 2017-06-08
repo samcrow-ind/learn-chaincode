@@ -101,7 +101,7 @@ func (t *ManagePatient) Init(stub shim.ChaincodeStubInterface, function string, 
   if function == "init" {                         //initialize the chaincode state, used as reset
     return t.Init(stub, "init", args)
   } else if function == "delete_patient" {                     //create a new Patient
-    return t.create_patient(stub, args)
+    return t.delete_patient(stub, args)
   }
    fmt.Println("invoke did not find func: " + function)          //error
   return nil, errors.New("Received unknown function invocation")
