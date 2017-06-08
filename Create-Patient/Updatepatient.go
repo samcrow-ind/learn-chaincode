@@ -100,10 +100,12 @@ func (t *ManagePatient) Init(stub shim.ChaincodeStubInterface, function string, 
   // Handle different functions
   if function == "init" {                         //initialize the chaincode state, used as reset
     return t.Init(stub, "init", args)
-  } else if function == "delete" {                     //delete a new Patient
+  } else if function == "create_patient"{
+    return t.create_patient(stub,args)} else if function == "delete" {                     //delete a new Patient
     return t.delete(stub, args)
-  }else if function== "create_patient"{
-    return t.create_patient(stub,args)}           
+  } else if function == "update_patient" {
+    return t.update_patient(stub,args)
+  }    
    fmt.Println("invoke did not find func: " + function)          //error
   
   return nil, errors.New("Received unknown function invocation")
@@ -246,5 +248,61 @@ func (t *ManagePatient) delete(stub shim.ChaincodeStubInterface, args []string) 
   }
   jsonAsBytes, _ := json.Marshal(PatientIndex)                 //save new index
   err = stub.PutState(PatientIndexStr, jsonAsBytes)
+  return nil, nil
+}
+// ============================================================================================================================
+// Write - update Vessel into chaincode state
+// ============================================================================================================================
+func (t *ManagePatient) update_patient(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+  var jsonResp string
+  var err error
+  fmt.Println("start update_patient")
+
+  PatientID := args[0]
+  Address := args[1]
+  Problems := args[2]
+  PatientName:= args[3]
+  Gender := args[4]
+  PatientMobile := args[5]
+
+
+  if len(args) != 6 {
+    return nil, errors.New("Incorrect number of arguments. Expecting 6.")
+  }
+  // set PatientID
+  //PatientID := args[0]
+  PatientAsBytes, err := stub.GetState(PatientID)                 //get the patient for the specified patientID from chaincode state
+  if err != nil {
+    jsonResp = "{\"Error\":\"Failed to get state for " + PatientID + "\"}"
+    return nil, errors.New(jsonResp)
+  }
+  //fmt.Print("vesselAsBytes in update vessel")
+  //fmt.Println(vesselAsBytes);
+   res := Patient{}
+  json.Unmarshal( PatientAsBytes, &res)
+  if res.PatientID == PatientID{
+    fmt.Println("Patient found with PatientID : " + PatientID)
+    //fmt.Println(res);
+    res.Address = args[1]
+    res.Problems  = args[2]
+    res.PatientName = args[3]
+    res.Gender = args[4]
+    res.PatientMobile = args[5]
+    }
+  
+  
+  //build the CreatePatient json string manually
+  PatientDetails :=  `{`+
+    `"PatientID": "` + PatientID + `" , `+
+    `"Address": "` + Address + `" , `+
+    `"Problems": "` + Problems + `" , `+
+    `"PatientName": "` + PatientName + `" , `+
+    `"Gender": "` + Gender + `" , `+ 
+    `"PatientMobile": "` + PatientMobile + `" , `+ 
+    `}`
+  err = stub.PutState(PatientID, []byte(PatientDetails))                  //store patient with id as key
+  if err != nil {
+    return nil, err
+  }
   return nil, nil
 }
