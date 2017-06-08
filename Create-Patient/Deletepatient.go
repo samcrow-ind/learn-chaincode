@@ -100,8 +100,8 @@ func (t *ManagePatient) Init(stub shim.ChaincodeStubInterface, function string, 
   // Handle different functions
   if function == "init" {                         //initialize the chaincode state, used as reset
     return t.Init(stub, "init", args)
-  } else if function == "delete_patient" {                     //create a new Patient
-    return t.delete_patient(stub, args)
+  } else if function == "delete" {                     //delete a new Patient
+    return t.delete(stub, args)
   }else if function== "create_patient"{
     return t.create_patient(stub,args)}           
    fmt.Println("invoke did not find func: " + function)          //error
@@ -213,7 +213,7 @@ func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []
   return nil, nil
 }
 //=====================Delete Vessel==================================================================
-func (t *ManagePatient) delete_patient(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+func (t *ManagePatient) delete(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
   if len(args) != 1 {
     return nil, errors.New("Incorrect number of arguments. Expecting 1")
   }
