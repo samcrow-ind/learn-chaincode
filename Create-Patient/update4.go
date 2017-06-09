@@ -228,13 +228,14 @@ func (t *ManagePatient) delete(stub shim.ChaincodeStubInterface, args []string) 
     return nil, errors.New("Incorrect number of arguments. Expecting 1")
   }
   // set PatientID
-  PatientID := args[0]
-fmt.Println(1)
+ PatientID := args[0]
+ err := stub.DelState(PatientID)
+ fmt.Println(1)
   //get the patient index
  PatientIndexAsBytes, err := stub.GetState(PatientIndexStr)
-  fmt.Println(2)
-  if err != nil {
-    return nil, errors.New("Failed to get Patient index")
+ fmt.Println(2)
+ if err != nil {
+ return nil, errors.New("Failed to get Patient index")
   }
   fmt.Println(3)
 
@@ -248,10 +249,11 @@ fmt.Println(1)
   //remove marble from index
   fmt.Println(5)
   for i,val := range PatientIndex{
-    fmt.Println(strconv.Itoa(i) + " - looking at " + val + " for " + PatientID)
-    if val == PatientID{                             //find the correct Vessel
+  fmt.Println(strconv.Itoa(i) + " - looking at " + val + " for " + PatientID)
+  if val == PatientID{                             //find the correct patient
       fmt.Println("found patient with matching patientID")
       PatientIndex = append(PatientIndex[:i], PatientIndex[i+1:]...)     //remove it
+      fmt.Println(6)
       for x:= range PatientIndex{                      //debug prints...
         fmt.Println(string(x) + " - " + PatientIndex[x])
       }
