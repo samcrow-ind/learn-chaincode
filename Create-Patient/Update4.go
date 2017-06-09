@@ -170,7 +170,7 @@ func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []
   }
   res := Patient{}
   fmt.Println("start create_Patient 3")
-  err1 := json.Unmarshal([]byte(PatientAsBytes), &res)
+  err1 := json.Unmarshal(PatientAsBytes, &res)
   if err1 != nil {
     fmt.Println(err1)
     return nil,errors.New("1ok")
