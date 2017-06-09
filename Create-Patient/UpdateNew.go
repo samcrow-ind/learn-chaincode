@@ -272,7 +272,7 @@ func (t *ManagePatient) update_patient(stub shim.ChaincodeStubInterface, args []
     return nil, errors.New("Incorrect number of arguments. Expecting 6.")
   }
   // set PatientID
-  PatientID := args[0]
+  //PatientID := args[0]
   PatientAsBytes, err := stub.GetState(PatientID)                 //get the patient for the specified patientID from chaincode state
   if err != nil {
     jsonResp = "{\"Error\":\"Failed to get state for " + PatientID + "\"}"
