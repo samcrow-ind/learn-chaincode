@@ -149,6 +149,8 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
 //========================================================================================================================
 func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
   var err error
+  var res Patient
+
   if len(args) != 6{
     return nil, errors.New("Incorrect number of arguments. Expecting 6")
   }
@@ -161,23 +163,24 @@ func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []
   Gender := args[4]
   PatientMobile := args[5]
   
-  
+  fmt.Println("start create_Patient 1")
   PatientAsBytes, err := stub.GetState(PatientID)
   if err != nil {
+    fmt.Println("start create_Patient 2")
     return nil, errors.New("Failed to get Patient Patient_id")
   }
   
-  res := Patient{}
+  fmt.Println("start create_Patient 3")
   json.Unmarshal(PatientAsBytes, &res)
- 
+  fmt.Println(res.PatientID)
   if res.PatientID == PatientID{
-     fmt.Println("This patient already exist")
-     return nil, errors.New("This Patient arleady exists")       
+  fmt.Println("This patient already exist")
+  return nil, errors.New("This Patient arleady exists")       
                                                            //all stop a patient by this name exists
   }
-  
-  //build the CreatePatient json string manually
-  PatientDetails :=  `{`+
+     fmt.Println("start create_Patient 4")
+     //build the CreatePatient json string manually
+      PatientDetails :=  `{`+
     `"PatientID": "` + PatientID + `" , `+
     `"Address": "` + Address + `" , `+
     `"Problems": "` + Problems + `" , `+
@@ -186,10 +189,12 @@ func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []
     `"PatientMobile": "` + PatientMobile + `" , `+ 
     `}`
 
+
+
     fmt.Print("Patient details in bytes array: ")
     fmt.Println([]byte(PatientDetails))
-  err = stub.PutState(PatientID, []byte(PatientDetails))                  //store Patient with PatientID as key
-  if err != nil {
+    err = stub.PutState(PatientID, []byte(PatientDetails))                  //store Patient with PatientID as key
+    if err != nil {
     return nil, err
   }
   //get the patient
@@ -308,3 +313,4 @@ func (t *ManagePatient) update_patient(stub shim.ChaincodeStubInterface, args []
   }
   return nil, nil
 }
+
