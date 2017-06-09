@@ -171,7 +171,9 @@ func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []
   json.Unmarshal(PatientAsBytes, &res)
  
   if res.PatientID == PatientID{
-     return nil, errors.New("This Patient arleady exists")        //all stop a patient by this name exists
+     fmt.Println("This patient already exist")
+     return nil, errors.New("This Patient arleady exists")       
+                                                           //all stop a patient by this name exists
   }
   
   //build the CreatePatient json string manually
