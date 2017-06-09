@@ -171,7 +171,11 @@ func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []
   }
   
   fmt.Println("start create_Patient 3")
-  json.Unmarshal(PatientAsBytes, &res)
+  err1 := json.Unmarshal(PatientAsBytes, &res)
+  if err1 != nil {
+    fmt.Println("123")
+    return nil,errors.New("1ok")
+  }
   fmt.Println(res.PatientID)
   if res.PatientID == PatientID{
   fmt.Println("This patient already exist")
@@ -313,4 +317,3 @@ func (t *ManagePatient) update_patient(stub shim.ChaincodeStubInterface, args []
   }
   return nil, nil
 }
-
