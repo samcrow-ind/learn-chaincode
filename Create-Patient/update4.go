@@ -191,8 +191,8 @@ func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []
 
 
 
-    fmt.Print("Patient details in bytes array: ")
-    fmt.Println([]byte(PatientDetails))
+    fmt.Print("Patient details in array: ")
+    fmt.Println(PatientDetails)
     err = stub.PutState(PatientID, []byte(PatientDetails))                  //store Patient with PatientID as key
     if err != nil {
     return nil, err
@@ -229,19 +229,24 @@ func (t *ManagePatient) delete(stub shim.ChaincodeStubInterface, args []string) 
   }
   // set PatientID
   PatientID := args[0]
-
+fmt.Println(1)
   //get the patient index
  PatientIndexAsBytes, err := stub.GetState(PatientIndexStr)
+  fmt.Println(2)
   if err != nil {
     return nil, errors.New("Failed to get Patient index")
   }
+  fmt.Println(3)
+
   //fmt.Println("poAsBytes in delete po")
   //fmt.Println(poAsBytes);
   var PatientIndex []string
+  fmt.Println(4)
   json.Unmarshal(PatientIndexAsBytes, &PatientIndex)               //un stringify it aka JSON.parse()
   //fmt.Println("poIndex in delete po")
   //fmt.Println(poIndex);
   //remove marble from index
+  fmt.Println(5)
   for i,val := range PatientIndex{
     fmt.Println(strconv.Itoa(i) + " - looking at " + val + " for " + PatientID)
     if val == PatientID{                             //find the correct Vessel
@@ -253,6 +258,7 @@ func (t *ManagePatient) delete(stub shim.ChaincodeStubInterface, args []string) 
       break
     }
   }
+  fmt.Println(6)
   jsonAsBytes, _ := json.Marshal(PatientIndex)                 //save new index
   err = stub.PutState(PatientIndexStr, jsonAsBytes)
   return nil, nil
