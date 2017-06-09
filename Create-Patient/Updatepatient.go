@@ -152,7 +152,7 @@ func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []
   if len(args) != 6{
     return nil, errors.New("Incorrect number of arguments. Expecting 6")
   }
-  fmt.Println("start create_Patient")
+  fmt.Println("start create_Patient OK")
 
   PatientID := args[0]
   Address := args[1]
