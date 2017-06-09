@@ -149,7 +149,6 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
 //========================================================================================================================
 func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
   var err error
-  var res Patient
 
   if len(args) != 6{
     return nil, errors.New("Incorrect number of arguments. Expecting 6")
@@ -169,9 +168,9 @@ func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []
     fmt.Println("start create_Patient 2")
     return nil, errors.New("Failed to get Patient Patient_id")
   }
-  
+  res := Patient{}
   fmt.Println("start create_Patient 3")
-  err1 := json.Unmarshal(PatientAsBytes, &res)
+  err1 := json.Unmarshal([]byte(PatientAsBytes), &res)
   if err1 != nil {
     fmt.Println("123")
     return nil,errors.New("1ok")
