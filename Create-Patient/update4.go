@@ -38,9 +38,9 @@ var PatientIndexStr = "_Patientindex"       //name for the key/value that will s
 
 type Patient struct{             // Attributes of a Patient      
   PatientID string `json:"PatientID"`
+  PatientName string `json:"PatientName"`
   Address   string `json:"Address"`         
   Problems string `json:"Problems"`
-  PatientName string `json:"PatientName"`
   Gender string `json:"Gender"`
   PatientMobile string `json:"PatientMobile"`
   }
@@ -101,7 +101,8 @@ func (t *ManagePatient) Init(stub shim.ChaincodeStubInterface, function string, 
   if function == "init" {                         //initialize the chaincode state, used as reset
     return t.Init(stub, "init", args)
   } else if function == "create_patient"{
-    return t.create_patient(stub,args)} else if function == "delete" {                     //delete a new Patient
+    return t.create_patient(stub,args)
+    } else if function == "delete" {                     //delete a new Patient
     return t.delete(stub, args)
   } else if function == "update_patient" {
     return t.update_patient(stub,args)
@@ -156,9 +157,9 @@ func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []
   fmt.Println("start create_Patient OK")
 
   PatientID := args[0]
-  Address := args[1]
-  Problems := args[2]
-  PatientName:= args[3]
+  Address := args[2]
+  Problems := args[3]
+  PatientName:= args[1]
   Gender := args[4]
   PatientMobile := args[5]
   
@@ -321,3 +322,4 @@ func (t *ManagePatient) update_patient(stub shim.ChaincodeStubInterface, args []
   }
   return nil, nil
 }
+
