@@ -137,7 +137,7 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
   }
   // set PatientID
    Patient_Email= args[0]
-  valAsbytes, err := stub.GetState(Patient_Email)                  //get the PatientID from chaincode state
+  valAsbytes, err := stub.GetState(PatientIndexStr)                  //get the PatientID from chaincode state
   if err != nil {
     jsonResp = "{\"Error\":\"Failed to get state for " + Patient_Email + "\"}"
     return nil, errors.New(jsonResp)
