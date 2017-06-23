@@ -129,20 +129,21 @@ func (t *ManagePatient) Query(stub shim.ChaincodeStubInterface, function string,
 // getPatient_byID - get Patient details for a specific ID from chaincode state
 //============================================================================================================================
 func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-  var Patient_Email, jsonResp string
+  var Patient_Email, jsonResp, errResp string
   var err error
+  var valIndex Patient
   fmt.Println("start getPatient_byID")
   if len(args) != 1 {
     return nil, errors.New("Incorrect number of arguments. Expecting ID of the patient to query")
   }
   // set PatientID
    Patient_Email= args[0]
-  valAsbytes, err := stub.GetState(PatientIndexStr)                  //get the PatientID from chaincode state
+  PatientAsBytes, err := stub.GetState(PatientIndexStr)                  //get the PatientID from chaincode state
   if err != nil {
     jsonResp = "{\"Error\":\"Failed to get state for " + Patient_Email + "\"}"
     return nil, errors.New(jsonResp)
   }
-
+    var PatientIndex []string
   json.Unmarshal(PatientAsBytes, &PatientIndex) 
   jsonResp = "{"
   for i,val := range PatientIndex{
@@ -154,10 +155,10 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
     }
     json.Unmarshal(valueAsBytes, &valIndex)
 
-    if valIndex.OwnerPhoneNumber == ownerPhoneNumber{
+    if valIndex.Patient_Email == Patient_Email{
       fmt.Println("Owner found")
       jsonResp = jsonResp + "\""+ val + "\":" + string(valueAsBytes[:])
-      if i < len(vesselIndex)-1 {
+      if i < len(PatientIndex)-1 {
         jsonResp = jsonResp + ","
       }}}
   //fmt.Print("valAsbytes : ")
