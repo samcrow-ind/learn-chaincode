@@ -142,10 +142,32 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
     jsonResp = "{\"Error\":\"Failed to get state for " + Patient_Email + "\"}"
     return nil, errors.New(jsonResp)
   }
+
+  json.Unmarshal(PatientAsBytes, &PatientIndex) 
+  jsonResp = "{"
+  for i,val := range PatientIndex{
+    fmt.Println(strconv.Itoa(i) + " - looking at " + val + " for getPatient_byID")
+    valueAsBytes, err := stub.GetState(val)
+    if err != nil {
+      errResp = "{\"Error\":\"Failed to get state for " + val + "\"}"
+      return nil, errors.New(errResp)
+    }
+    json.Unmarshal(valueAsBytes, &valIndex)
+
+    if valIndex.OwnerPhoneNumber == ownerPhoneNumber{
+      fmt.Println("Owner found")
+      jsonResp = jsonResp + "\""+ val + "\":" + string(valueAsBytes[:])
+      if i < len(vesselIndex)-1 {
+        jsonResp = jsonResp + ","
+      }}}
   //fmt.Print("valAsbytes : ")
   //fmt.Println(valAsbytes)
-  fmt.Println("end getPatient_byID")
-  return valAsbytes, nil                          //send it onward
+  jsonResp = jsonResp + "}"
+  //fmt.Println("jsonResp : " + jsonResp)
+  //fmt.Print("jsonResp in bytes : ")
+  //fmt.Println([]byte(jsonResp))
+  fmt.Println("end getby patientID")
+  return []byte(jsonResp), nil                      //send it onward
 }
 
 //create patient
