@@ -224,7 +224,7 @@ func (t *ManagePatient) create_patient(stub shim.ChaincodeStubInterface, args []
     `"Problems": "` + Problems + `" , `+
     `"PatientName": "` + PatientName + `" , `+
     `"Gender": "` + Gender + `" , `+ 
-    `"PatientMobile": "` + PatientMobile + `" `+ 
+    `"PatientMobile": "` + PatientMobile + `" ,`+ 
     `"Patient_Email": "` + Patient_Email + `" `+ 
     `}`
 
