@@ -160,7 +160,7 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
     }
     var err1 error
     err1 = json.Unmarshal(valueAsBytes, &valIndex)
-    if err != nil {
+    if err1 != nil {
       fmt.Println(err1)
   }
        fmt.Println(valIndex.Patient_Email)
