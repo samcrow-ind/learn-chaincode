@@ -138,15 +138,20 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
   }
   // set PatientID
    Patient_Email= args[0]
+    console.log("patient12")
   PatientAsBytes, err := stub.GetState(PatientIndexStr)                  //get the PatientID from chaincode state
+    console.log("patient14")
   if err != nil {
     jsonResp = "{\"Error\":\"Failed to get state for " + Patient_Email + "\"}"
     return nil, errors.New(jsonResp)
   }
+    console.log("patient15")
     var PatientIndex []string
   json.Unmarshal(PatientAsBytes, &PatientIndex) 
+    console.log("patient16")
   jsonResp = "{"
   for i,val := range PatientIndex{
+    console.log("patient17")
     fmt.Println(strconv.Itoa(i) + " - looking at " + val + " for getPatient_byID")
     valueAsBytes, err := stub.GetState(val)
     if err != nil {
@@ -154,9 +159,9 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
       return nil, errors.New(errResp)
     }
     json.Unmarshal(valueAsBytes, &valIndex)
-
+       console.log("patient18")
     if valIndex.Patient_Email == Patient_Email{
-      fmt.Println("Owner found")
+      fmt.Println("Patientfound")
       jsonResp = jsonResp + "\""+ val + "\":" + string(valueAsBytes[:])
       if i < len(PatientIndex)-1 {
         jsonResp = jsonResp + ","
@@ -169,6 +174,7 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
   //fmt.Println([]byte(jsonResp))
   fmt.Println("end getby patientID")
   return []byte(jsonResp), nil                      //send it onward
+  console.log("patient9")
 }
 
 //create patient
