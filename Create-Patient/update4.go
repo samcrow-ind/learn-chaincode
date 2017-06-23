@@ -158,7 +158,10 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
       errResp = "{\"Error\":\"Failed to get state for " + val + "\"}"
       return nil, errors.New(errResp)
     }
-    json.Unmarshal(valueAsBytes, &valIndex)
+    err1 := json.Unmarshal(valueAsBytes, &valIndex)
+    if err != nil {
+      fmt.Println(err1)
+  }
        fmt.Println(valIndex.Patient_Email)
     if valIndex.Patient_Email == Patient_Email{
       fmt.Println("Patientfound")
