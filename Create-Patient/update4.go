@@ -145,7 +145,7 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
     jsonResp = "{\"Error\":\"Failed to get state for " + Patient_Email + "\"}"
     return nil, errors.New(jsonResp)
   }
-    console.log("patient15");
+    fmt.Println("19")
     var PatientIndex []string
   json.Unmarshal(PatientAsBytes, &PatientIndex) 
    fmt.Println("7")
@@ -173,8 +173,9 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
   //fmt.Print("jsonResp in bytes : ")
   //fmt.Println([]byte(jsonResp))
   fmt.Println("end getby patientID")
+   fmt.Println("9")
   return []byte(jsonResp), nil                      //send it onward
-  fmt.Println("9")
+  
 }
 
 //create patient
