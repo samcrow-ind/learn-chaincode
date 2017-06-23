@@ -158,6 +158,7 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
       errResp = "{\"Error\":\"Failed to get state for " + val + "\"}"
       return nil, errors.New(errResp)
     }
+    fmt.Println(valueAsBytes)
     var err1 error
     err1 = json.Unmarshal(valueAsBytes, &valIndex)
     if err1 != nil {
