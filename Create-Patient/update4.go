@@ -159,7 +159,7 @@ func (t *ManagePatient) getPatient_byID(stub shim.ChaincodeStubInterface, args [
       return nil, errors.New(errResp)
     }
     json.Unmarshal(valueAsBytes, &valIndex)
-       fmt.Println("10")
+       fmt.Println(valIndex.Patient_Email)
     if valIndex.Patient_Email == Patient_Email{
       fmt.Println("Patientfound")
       jsonResp = jsonResp + "\""+ val + "\":" + string(valueAsBytes[:])
